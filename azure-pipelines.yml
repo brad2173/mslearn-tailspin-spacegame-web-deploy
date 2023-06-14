@@ -13,6 +13,7 @@ stages:
     displayName: 'Build job'
     pool: 
       name: 'linux_pool'
+      demands:
       
     variables:
       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
