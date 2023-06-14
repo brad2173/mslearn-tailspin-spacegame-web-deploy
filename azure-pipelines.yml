@@ -11,7 +11,7 @@ stages:
   jobs: 
   - job: 'Build'
     displayName: 'Build job'
-    pool:
+    pool: 'Default'
       vmImage: 'ubuntu-20.04'
       demands:
       - npm
