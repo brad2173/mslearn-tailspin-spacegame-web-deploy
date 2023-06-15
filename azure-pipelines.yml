@@ -72,41 +72,37 @@ stages:
   dependsOn: Build
   condition:  succeeded()
   jobs:
-  - deployment: DeployA
+  - job: 'DeployNodeA'
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: dev
     variables:
     - group: Release
     strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-            artifact: drop
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
-              azureSubscription: 'Visual Studio Professional Subscription(8e300b07-d799-447d-9dec-b3ba49a80390)'
-              appType: 'webAppLinux'
-              appName: '$(WebAppNameDev)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-  - deployment: DeployB
+      parallel:
+    steps:
+    - download: current
+      artifact: drop
+    - task: AzureWebApp@1
+      displayName: 'Azure App Service Deploy: website'
+      inputs:
+        azureSubscription: 'Visual Studio Professional Subscription(8e300b07-d799-447d-9dec-b3ba49a80390)'
+        appType: 'webAppLinux'
+        appName: '$(WebAppNameDev)'
+        package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+  - job: 'DeployNodeB'
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: staging
     variables:
-    - group: 'Release'
+    - group: Release
     strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-            artifact: drop
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
-              azureSubscription: 'Visual Studio Professional Subscription(1)(8e300b07-d799-447d-9dec-b3ba49a80390)'
-              appType: 'webAppLinux'
-              appName: '$(WebAppNameDev)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+      parallel:
+    steps:
+    - download: current
+      artifact: drop
+    - task: AzureWebApp@1
+      displayName: 'Azure App Service Deploy: website'
+      inputs:
+        azureSubscription: 'Visual Studio Professional Subscription(8e300b07-d799-447d-9dec-b3ba49a80390)'
+        appType: 'webAppLinux'
+        appName: '$(WebAppNameDev)'
+        package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
