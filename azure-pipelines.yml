@@ -68,7 +68,7 @@ stages:
       artifact: drop
 
 - stage: 'Dev'
-  displayName: 'Deploy to the dev environment'
+  displayName: 'Deploy to Web Server'
   dependsOn: Build
   condition:  succeeded()
   jobs:
@@ -91,10 +91,6 @@ stages:
               appType: 'webAppLinux'
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-- stage: 'Staging'
-  displayName: 'Deploy to the staging environment'
-  dependsOn: Build
-  jobs:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
