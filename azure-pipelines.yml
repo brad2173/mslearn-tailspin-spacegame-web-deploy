@@ -14,7 +14,7 @@ stages:
     pool: 
       name: 'linux_pool'
       demands:
-        Agent.Version -gt 3.000
+        Agent.Version -equals 3.220.5
 
       
     variables:
