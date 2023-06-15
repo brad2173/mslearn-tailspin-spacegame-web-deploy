@@ -13,7 +13,9 @@ stages:
     displayName: 'Build job'
     pool: 
       name: 'linux_pool'
-      demands: ''
+      demands:
+        Agent.Version -gt 3.000
+
       
     variables:
       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
