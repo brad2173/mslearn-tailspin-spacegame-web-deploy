@@ -72,7 +72,7 @@ stages:
   dependsOn: Build
   condition:  succeeded()
   jobs:
-  - job: 'DeployNodeA'
+  - job: DeployNodeA
     pool:
       vmImage: 'ubuntu-20.04'
     variables:
@@ -89,7 +89,7 @@ stages:
         appType: 'webAppLinux'
         appName: '$(WebAppNameDev)'
         package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-  - job: 'DeployNodeB'
+  - job: DeployNodeB
     pool:
       vmImage: 'ubuntu-20.04'
     variables:
